@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "424205354408",
+    "project_id": "ootdandroid",
+    "storage_bucket": "ootdandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424205354408:android:df88d9d8661c8806a8899d",
+        "android_client_info": {
+          "package_name": "com.example.ootd2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424205354408-sa35uvgeks1q25qttsgbou1ognvdrk70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOUvklW8-UtMSX0-zJDdBvvuiYiID_3N0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424205354408-sa35uvgeks1q25qttsgbou1ognvdrk70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

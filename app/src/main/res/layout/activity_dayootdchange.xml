@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b5b7bb"
+    android:backgroundTint="#b5b7bb"
+
+    tools:context=".dayootdchange">
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="173dp"
+        android:layout_height="48dp"
+        android:backgroundTint="#009688"
+        android:hint="Add Today's Outfit"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="216dp" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="172dp"
+        android:layout_height="44dp"
+        android:backgroundTint="#009688"
+        android:hint="Submit"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="329dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
