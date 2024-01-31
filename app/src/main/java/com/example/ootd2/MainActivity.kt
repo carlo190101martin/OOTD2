@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty() ) {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(this , settings::class.java)
+                            val intent = Intent(this , rootController::class.java)
                             startActivity(intent)
 
                         } else {
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty() ) {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val intent1 = Intent(this , settings::class.java)
+                        val intent1 = Intent(this , rootController::class.java)
                         startActivity(intent1)
 
 
@@ -88,9 +89,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (firebaseAuth.currentUser != null) {
-            val intent13 = Intent(this , settings::class.java)
-            startActivity(intent13)
-
+            val intent = Intent(this, TabBarActivity::class.java)
+            startActivity(intent)
+            finish() // Close MainActivity
         }
 
     }

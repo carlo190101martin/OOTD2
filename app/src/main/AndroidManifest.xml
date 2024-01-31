@@ -5,7 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
+
         tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -18,9 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OOTD2"
         tools:targetApi="tiramisu" >
-        <activity
-            android:name=".TabBarActivity"
-            android:exported="false" />
+        <activity android:name=".TabBarActivity" android:exported="true" />
+
+        <activity android:name=".VitaminDTreatmentActivity" />
+        <activity android:name=".FinasterideTreatmentActivity" />
+        <activity android:name=".ViagraTreatmentActivity" />
+
         <activity
             android:name=".ViewPagerAdapter"
             android:exported="false" />
@@ -30,9 +36,7 @@
         <activity
             android:name=".peopleWhoLikedMe"
             android:exported="false" />
-        <activity
-            android:name=".ranking"
-            android:exported="false" />
+
         <activity
             android:name=".dayootdchange"
             android:exported="false" />
@@ -49,7 +53,16 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+            <meta-data
+                android:name="com.google.android.gms.wallet.api.enabled"
+                android:value="true" />
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
+
         <activity
             android:name=".settings"
             android:exported="false" >

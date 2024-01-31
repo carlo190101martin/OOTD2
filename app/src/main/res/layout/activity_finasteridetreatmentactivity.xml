@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/medH"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Please describe your medical history"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Additional EditText and Button elements -->
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Existing EditText and other elements -->
+
+
+    <Button
+        android:id="@+id/smokeyes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Allergic to finpecia: Yes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/medH" />
+
+
+    <Button
+        android:id="@+id/allerg3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Regularly take PSA exam: Yes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bloodno" />
+
+    <Button
+        android:id="@+id/allerg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:text="Regularly take PSA exam: No"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/allerg3" />
+
+    <Button
+        android:id="@+id/smokeno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allergic to Finpecia: No"
+        app:layout_constraintTop_toBottomOf="@id/smokeyes"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <EditText
+        android:id="@+id/menst"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="What meds do you take?"
+        app:layout_constraintTop_toBottomOf="@id/smokeno"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        app:layout_constraintTop_toBottomOf="@id/menst"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/bloodyes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liver disease or family history of it: Yes"
+        app:layout_constraintTop_toBottomOf="@id/phone"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/bloodno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liverdisease or family history of it: No"
+        app:layout_constraintTop_toBottomOf="@id/bloodyes"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <!-- Additional EditText and Button elements -->
+</androidx.constraintlayout.widget.ConstraintLayout>

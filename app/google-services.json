@@ -1,36 +1,27 @@
 {
   "project_info": {
-    "project_number": "424205354408",
-    "project_id": "ootdandroid",
-    "storage_bucket": "ootdandroid.appspot.com"
+    "project_number": "315589409868",
+    "firebase_url": "https://medicalphone-a9d74-default-rtdb.firebaseio.com",
+    "project_id": "medicalphone-a9d74",
+    "storage_bucket": "medicalphone-a9d74.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:424205354408:android:df88d9d8661c8806a8899d",
+        "mobilesdk_app_id": "1:315589409868:android:2f8b890c64ad99b6d748e9",
         "android_client_info": {
           "package_name": "com.example.ootd2"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "424205354408-sa35uvgeks1q25qttsgbou1ognvdrk70.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBOUvklW8-UtMSX0-zJDdBvvuiYiID_3N0"
+          "current_key": "AIzaSyBinSw-OVFbnFx4rpnnU7iWRhkKhPNCwvo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "424205354408-sa35uvgeks1q25qttsgbou1ognvdrk70.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

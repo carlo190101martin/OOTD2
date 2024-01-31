@@ -7,20 +7,20 @@ import com.example.ootd2.databinding.ActivityTabBarBinding
 
 
 class TabBarActivity : AppCompatActivity() {
-    private lateinit var bindingw : ActivityTabBarBinding
+    private lateinit var binding : ActivityTabBarBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindingw = ActivityTabBarBinding.inflate(layoutInflater)
-        setContentView(bindingw.root)
-        replaceFragment(homepage1())
+        binding = ActivityTabBarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(rootController())
 
 
-        bindingw.bottomNavigationView4.setOnItemSelectedListener {
+        binding.bottomNavigationView4.setOnItemSelectedListener {
             when (it.itemId) {
 
-                R.id.home -> replaceFragment(homepage1())
+                R.id.rootControllerTab -> replaceFragment(rootController())
                 R.id.ranking -> replaceFragment(ranking())
                 R.id.people -> replaceFragment(people())
 
