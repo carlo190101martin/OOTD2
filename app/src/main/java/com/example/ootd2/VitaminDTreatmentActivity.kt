@@ -1,14 +1,22 @@
 package com.example.ootd2
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.graphics.Color
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 
 
 class VitaminDTreatmentActivity : AppCompatActivity() {
@@ -24,11 +32,22 @@ class VitaminDTreatmentActivity : AppCompatActivity() {
     private lateinit var name: EditText
     private lateinit var phone: EditText
     private lateinit var submitButton: Button
+    private lateinit var databaseReference: DatabaseReference
+
+    private var isSmokingSelected = false
+    private var isBloodIssueSelected = false
+    private var isAllergySelected = false
+
+    private var smokingResponse: Boolean? = null
+    private var bloodIssueResponse: Boolean? = null
+    private var allergyResponse: Boolean? = null
+
     // ... other components as per your iOS app
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_viagratreatmentactivity)
+        databaseReference = FirebaseDatabase.getInstance().getReference()
+        setContentView(R.layout.activity_vitamindtreatmentactivity)
 
         // Initialize UI components
         medH = findViewById(R.id.medH)
@@ -51,42 +70,17 @@ class VitaminDTreatmentActivity : AppCompatActivity() {
         // ... initialize other components
 
         // Setup listeners
-        smokeyes.setOnClickListener {
-            smokeyes.setBackgroundColor(Color.RED) // Highlight this button
-            smokeno.setBackgroundColor(Color.YELLOW) // Reset the other button
-            // Additional logic for when "Smoke: Yes" is clicked
-        }
+        setupButtonListeners()
 
-        smokeno.setOnClickListener {
-            smokeno.setBackgroundColor(Color.RED) // Highlight this button
-            smokeyes.setBackgroundColor(Color.YELLOW) // Reset the other button
-            // Additional logic for when "Smoke: No" is clicked
-        }
-
-// Similarly, setup listeners for other buttons
-        bloodYes.setOnClickListener {
-            // Logic for the bloodYes button
-            // For example, change button colors or handle user choice
-        }
-
-        bloodNo.setOnClickListener {
-            // Logic for the bloodNo button
-            // For example, change button colors or handle user choice
-        }
-        allerg3.setOnClickListener {
-            // Logic for the bloodYes button
-            // For example, change button colors or handle user choice
-        }
-
-        allerg2.setOnClickListener {
-            // Logic for the bloodNo button
-            // For example, change button colors or handle user choice
-        }
-
-
+        val submitButton: Button = findViewById(R.id.submit_button)
         submitButton.setOnClickListener {
-            // Logic to handle the form submission
-            // Here, you would typically collect data from all fields and process it
+            // Validate input fields here before submitting...
+            if (validateInputs()) {
+                submitFormData()
+            } else {
+                // Optionally, show an error alert or toast if validation fails
+                Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show()
+            }
         }
 
 // Add TextChangedListeners to EditTexts if needed to handle text input
@@ -129,37 +123,107 @@ class VitaminDTreatmentActivity : AppCompatActivity() {
         // ... additional methods as needed, such as for handling form submission
     }
 
+
+    private fun setupButtonListeners() {
+        smokeyes.setOnClickListener {
+            smokingResponse = true
+            toggleButtonColors(smokeyes, smokeno)
+        }
+
+        smokeno.setOnClickListener {
+            smokingResponse = false
+            toggleButtonColors(smokeno, smokeyes)
+        }
+
+        bloodYes.setOnClickListener {
+            bloodIssueResponse = true
+            toggleButtonColors(bloodYes, bloodNo)
+        }
+
+        bloodNo.setOnClickListener {
+            bloodIssueResponse = false
+            toggleButtonColors(bloodNo, bloodYes)
+        }
+
+        allerg3.setOnClickListener {
+            allergyResponse = true
+            toggleButtonColors(allerg3, allerg2)
+        }
+
+        allerg2.setOnClickListener {
+            allergyResponse = false
+            toggleButtonColors(allerg2, allerg3)
+        }
+    }
+
+    private fun toggleButtonColors(selectedButton: Button, otherButton: Button) {
+        selectedButton.setBackgroundColor(Color.RED) // Selected
+        otherButton.setBackgroundColor(Color.GRAY) // Not selected
+    }
+
+
     private fun validateInputs(): Boolean {
-        // Validate each input field
-        return medH.text.isNotBlank() &&
-                menst.text.isNotBlank() &&
-                name.text.isNotBlank() &&
-                phone.text.isNotBlank() &&
-                // Assuming smokeyes and smokeno are toggle buttons for a yes/no question
-                (smokeyes.isSelected || smokeno.isSelected) &&
-                // Assuming bloodYes and bloodNo are for another yes/no question
-                (bloodYes.isSelected || bloodNo.isSelected) &&
-                (allerg2.isSelected || allerg3.isSelected)
-        // Add additional checks for other fields if there are any
+        val isMedicalHistoryValid = medH.text.isNotBlank()
+        val isMenstValid = menst.text.isNotBlank()
+        val isNameValid = name.text.isNotBlank()
+        val isPhoneValid = phone.text.isNotBlank()
+        val isSelectionMade = smokingResponse != null && bloodIssueResponse != null && allergyResponse != null
+
+        // Log to see which checks are failing if needed
+        Log.d("Validation", "isMedicalHistoryValid: $isMedicalHistoryValid, isMenstValid: $isMenstValid, isNameValid: $isNameValid, isPhoneValid: $isPhoneValid, isSelectionMade: $isSelectionMade")
+
+        return isMedicalHistoryValid && isMenstValid && isNameValid && isPhoneValid && isSelectionMade
+    }
+    private fun navigateToEndActivity() {
+        val intent = Intent(this, nope::class.java)
+        startActivity(intent)
     }
 
     private fun submitFormData() {
-        // Collect data from the fields
-        val medHText = medH.text.toString()
-        val menstText = menst.text.toString()
-        val nameText = name.text.toString()
-        val phoneText = phone.text.toString()
-        val smokeStatus = if (smokeyes.isSelected) "Yes" else "No"
-        val bloodStatus = if (bloodYes.isSelected) "Yes" else "No"
-        val allergStatus = if (allerg2.isSelected) "Yes" else "No"
-        //
-        // Collect additional data as needed
+        // Check if any of the conditions are met to redirect to the EndActivity
+        if (smokingResponse == true || bloodIssueResponse == true || allergyResponse == true) {
+            navigateToEndActivity()
+        } else {
+            // Existing logic to submit form data
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                val uid = user.uid
 
-        // Implement your data submission logic here
-        sendDataToServer(medHText, menstText, nameText, phoneText, smokeStatus, bloodStatus, allergStatus)
-        // You can navigate to another screen or show a confirmation message after this
-        showConfirmation()
+                val dataToUpload = hashMapOf<String, Any>(
+                    "medicalHistory" to medH.text.toString(),
+                    "menstruationDetails" to menst.text.toString(),
+                    "name" to name.text.toString(),
+                    "contactPhone" to phone.text.toString(),
+                    "smokingStatus" to if (isSmokingSelected) "Yes" else "No",
+                    "bloodIssue" to if (isBloodIssueSelected) "Yes" else "No",
+                    "allergyStatus" to if (isAllergySelected) "Yes" else "No"
+                    // Include any additional fields as needed
+                )
+
+                databaseReference.child("people").child(uid).updateChildren(dataToUpload)
+                    .addOnSuccessListener {
+                        // Handle success
+                        showThankYouAlert() // Show a success message or navigate to next screen
+                    }
+                    .addOnFailureListener { e ->
+                        // Handle failure
+                        Log.e("FirebaseDB", "Failed to update user data", e)
+                    }
+            } else {
+                // Handle case where there is no authenticated user
+                Log.e("FirebaseDB", "No authenticated user found")
+            }
+        }
     }
+
+    private fun showThankYouAlert() {
+        AlertDialog.Builder(this)
+        // Navigate to toPay Activity
+        val intent = Intent(this, Payment::class.java)
+        intent.putExtra("medication", "Vitamin D") // Replace "Finpecia" with the actual medication type
+        startActivity(intent)
+    }
+
 
     private fun sendDataToServer(vararg data: String) {
         // Logic to send data to the server
@@ -167,11 +231,7 @@ class VitaminDTreatmentActivity : AppCompatActivity() {
         // Example: Create a network request to send data
     }
 
-    private fun showConfirmation() {
-        // Show a confirmation message to the user
-        Toast.makeText(this, "Form submitted successfully", Toast.LENGTH_LONG).show()
-        // Optionally, navigate to another screen or activity
-    }
+
 
 
 

@@ -10,11 +10,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Please describe your medical history"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- Additional EditText and Button elements -->
 
     <Button
         android:id="@+id/submit_button"
@@ -25,9 +24,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Existing EditText and other elements -->
-
-
     <Button
         android:id="@+id/smokeyes"
         android:layout_width="wrap_content"
@@ -35,27 +31,27 @@
         android:layout_marginTop="8dp"
         android:text="Are you pregnant : Yes"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/medH" />
-
 
     <Button
         android:id="@+id/allerg3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Family history of blood clots or breast cancer: Yes"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bloodno" />
 
     <Button
         android:id="@+id/allerg2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
-        android:text="Severe liver or kidney disease: No"
+        android:text="Family history of blood clots or breast cancer: No"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/allerg3" />
 
     <Button
@@ -63,24 +59,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Are you pregnant: No"
-        app:layout_constraintTop_toBottomOf="@id/smokeyes"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smokeyes"/>
+
     <EditText
         android:id="@+id/menst"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="What meds do you take?"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/smokeno"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-
 
     <EditText
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Name"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/menst"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -90,6 +88,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Phone Number"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -99,17 +98,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Are you elderly or underweight: Yes"
-        app:layout_constraintTop_toBottomOf="@id/phone"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phone"/>
 
     <Button
         android:id="@+id/bloodno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Are you elderly or underweight: No"
-        app:layout_constraintTop_toBottomOf="@id/bloodyes"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
-    <!-- Additional EditText and Button elements -->
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bloodyes"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

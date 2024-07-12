@@ -10,11 +10,40 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Please describe your medical history"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Additional EditText and Button elements -->
+    <EditText
+        android:id="@+id/menst"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="What meds do you take?"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/smokeno"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/menst"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/submit_button"
@@ -25,90 +54,64 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Existing EditText and other elements -->
-
-
     <Button
         android:id="@+id/smokeyes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Do you take meds for pulmunarial arterial hypertension : Yes"
+        android:text="Do you take meds for pulmonary arterial hypertension : Yes"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/medH" />
-
 
     <Button
         android:id="@+id/allerg3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Severe liver or kidney disease: Yes"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bloodno" />
 
     <Button
         android:id="@+id/allerg2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="Severe liver or kidney disease: No"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/allerg3" />
 
     <Button
         android:id="@+id/smokeno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you take meds for pulmunarial arterial hypertension: No"
-        app:layout_constraintTop_toBottomOf="@id/smokeyes"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <EditText
-        android:id="@+id/menst"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="What meds do you take?"
-        app:layout_constraintTop_toBottomOf="@id/smokeno"
+        android:text="Do you take meds for pulmonary arterial hypertension: No"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        app:layout_constraintTop_toBottomOf="@id/menst"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        app:layout_constraintTop_toBottomOf="@id/name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smokeyes" />
 
     <Button
         android:id="@+id/bloodyes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cardiovascular issues: Yes"
-        app:layout_constraintTop_toBottomOf="@id/phone"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phone" />
 
     <Button
         android:id="@+id/bloodno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cardiovascular issues: No"
-        app:layout_constraintTop_toBottomOf="@id/bloodyes"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bloodyes" />
+
+
 
 
     <!-- Additional EditText and Button elements -->

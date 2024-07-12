@@ -18,6 +18,7 @@ import android.Manifest
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+///NOT USER USE toPay
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

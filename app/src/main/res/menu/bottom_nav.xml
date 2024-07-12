@@ -2,9 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Create Script"
-        android:id="@+id/rootControllerTab"/>
-    <item android:title="My Scripts"
-        android:id="@+id/ranking"/>
+        android:id="@+id/rootControllerTab"
+        android:icon="@drawable/baseline_medical_information_24"/>
     <item android:title="Renew Script"
-        android:id="@+id/people"/>
+        android:id="@+id/ranking"
+        android:icon="@drawable/baseline_accessibility_new_24"/>
+    <item android:title="My Scripts"
+        android:id="@+id/people"
+        android:icon="@drawable/twotone_archive_24"/>
+
+
+
 </menu>
+

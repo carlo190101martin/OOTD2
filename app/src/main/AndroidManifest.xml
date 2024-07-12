@@ -2,16 +2,46 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="default_channel_id"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
+
     <uses-permission
         android:name="android.permission.READ_LOGS"
 
+
+
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- Required for Android 6.0 (API level 23) and above -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
+        android:name=".MyApplication"
+
+
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
@@ -21,11 +51,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OOTD2"
         tools:targetApi="tiramisu" >
-        <activity android:name=".TabBarActivity" android:exported="true" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="default_channel_id"/>
+
+        <receiver
+            android:name=".NotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.APPROVAL_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
+
+        <service
+            android:name=".MyForegroundService"
+            android:exported="true"
+            android:permission="android.permission.FOREGROUND_SERVICE">
+            <intent-filter>
+                <action android:name="com.example.START_FOREGROUND_SERVICE" />
+            </intent-filter>
+        </service>
+
+        <!-- Firebase Messaging Service declaration -->
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+        <activity android:name=".TabBarActivity" android:exported="true" android:label="AutoRxGen" />
 
         <activity android:name=".VitaminDTreatmentActivity" />
         <activity android:name=".FinasterideTreatmentActivity" />
         <activity android:name=".ViagraTreatmentActivity" />
+        <activity android:name=".FinpeciaTreatmentActivity" />
+        <activity android:name=".PseudoephedrineTreatmentActivity" />
+        <activity android:name=".MinoxidilTreatmentActivity" />
+        <activity android:name=".ZoviraxTreatmentActivity" />
+        <activity android:name=".RetinATreatmentActivity" />
+        <activity android:name=".TruvadaTreatmentActivity" />
+        <activity android:name=".DetrypTreatmentActivity" />
+        <activity android:name=".VenteseTreatmentActivity" />
+        <activity android:name=".OzempicTreatmentActivity" />
+        <activity android:name=".XanaxTreatmentActivity" />
+        <activity android:name=".ZolpidemTreatmentActivity" />
+        <activity android:name=".ThankYou"
+            android:exported="true">
+        </activity>
+
 
         <activity
             android:name=".ViewPagerAdapter"
@@ -38,8 +116,18 @@
             android:exported="false" />
 
         <activity
+            android:name=".success"
+            android:exported="false" />
+
+
+        <activity
             android:name=".dayootdchange"
             android:exported="false" />
+        <activity
+            android:name=".SuccessActivity">
+
+        </activity>
+
         <activity
             android:name=".SignInActivity"
             android:exported="false" >
@@ -57,6 +145,24 @@
                 android:name="com.google.android.gms.wallet.api.enabled"
                 android:value="true" />
         </activity>
+        <activity
+            android:name=".toPay"
+            android:theme="@style/AppTheme.TransparentStatusBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.APPROVAL_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Payment">
+            <!-- Add any additional configuration for the activity here -->
+        </activity>
+
+        <activity android:name=".nope">
+            <!-- Add any additional configuration for the activity here -->
+        </activity>
+
+
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
@@ -83,6 +189,27 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
+        <service android:name=".MyFirebaseInstanceIDService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="${applicationId}"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
+
+
 
 </manifest>

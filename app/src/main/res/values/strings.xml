@@ -2,4 +2,25 @@
     <string name="app_name">OOTD2</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pdf_content_description">PDF view displaying a prescription</string>
+    <string name="pdf_preview">PDF Preview</string>
+    <string name="pdf_thumbnail">PDF Thumbnail</string>
+    <string-array name="medication_options">
+        <item>Select a medication...</item>
+        <item>Finpecia (Hairloss)</item>
+        <item>Pseudoephedrine (Seasonal viruses)</item>
+        <item>Minoxidil (Hairloss)</item>
+        <item>Zovirax (Cold Sores)</item>
+        <item>Retin-A (Acne)</item>
+        <item>Viagra (ED)</item>
+        <item>Truvada (Prep)</item>
+        <item>Detryp (Depression)</item>
+        <item>Ventese (Asthma)</item>
+        <item>Ozempic (Diabetes/Weight loss)</item>
+        <item>Xanax (Anxiety)</item>
+        <item>Zolpidem (Sleep aid)</item>
+        <item>Vitamin D (Vit D deficiency)</item>
+    </string-array>
+
+
 </resources>

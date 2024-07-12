@@ -1,203 +1,185 @@
 package com.example.ootd2
 
 import android.app.Activity
-import android.app.DownloadManager
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.privacysandbox.tools.core.model.Method
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.PaymentDataRequest
 import com.google.android.gms.wallet.PaymentsClient
 import com.google.android.gms.wallet.Wallet
 import com.google.android.gms.wallet.WalletConstants
-import com.google.android.gms.wallet.IsReadyToPayRequest
-import org.json.JSONArray
-import org.json.JSONObject
-import java.net.URL
 import com.android.volley.Request
-import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import org.json.JSONException
+import org.json.JSONObject
+import java.nio.charset.Charset
+import java.util.UUID
+
+///toDoNotes make it so that if it fails it doesnt just say network error and go dead. make it so that it can reset the page
 
 
-class toPay: Fragment() {
+class toPay : Fragment() {
 
+    private lateinit var paymentsClient: PaymentsClient
+    private val loadPaymentDataRequestCode = 991
+    private var isPaymentInProgress = false
+    private var paymentTokenSent = false
 
-        // ... other code ...
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_topay, container, false)
 
-        private lateinit var paymentsClient: PaymentsClient
+        paymentsClient = Wallet.getPaymentsClient(
+            requireActivity(),
+            Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST).build()
+        )
 
-        override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            // Initialize Google Pay API
-            paymentsClient = Wallet.getPaymentsClient(
-                requireActivity(),
-                Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST).build()
-            )
-
-            // Inflate the layout for this fragment
-            // ...
-
-            // Setup Google Pay Button
-            setupGooglePayButton()
-
-            return view
-        }
-
-    private fun getPaymentDataRequest(): JSONObject {
-        return JSONObject().apply {
-            put("apiVersion", 2)
-            put("apiVersionMinor", 0)
-            put("allowedPaymentMethods", JSONArray().put(getBaseCardPaymentMethod()))
-            put("transactionInfo", getTransactionInfo())
-            put("merchantInfo", getMerchantInfo())
-
-            // To request email address
-            put("emailRequired", true)
-        }
-    }
-
-    private fun getBaseCardPaymentMethod(): JSONObject {
-        return JSONObject().apply {
-            put("type", "CARD")
-            put("parameters", JSONObject().apply {
-                put("allowedAuthMethods", JSONArray().put("PAN_ONLY").put("CRYPTOGRAM_3DS"))
-                put("allowedCardNetworks", JSONArray().put("MASTERCARD").put("VISA"))
-            })
-        }
-    }
-
-    private fun getTransactionInfo(): JSONObject {
-        return JSONObject().apply {
-            put("totalPrice", "1.00")
-            put("totalPriceStatus", "FINAL")
-            put("currencyCode", "USD")
-        }
-    }
-
-    private fun getMerchantInfo(): JSONObject {
-        return JSONObject().apply {
-            put("merchantName", "Example Merchant")
-        }
-    }
-    private fun getIsReadyToPayRequest(): JSONObject {
-        return JSONObject().apply {
-            put("apiVersion", 2)
-            put("apiVersionMinor", 0)
-            put("allowedPaymentMethods", JSONArray().put(getBaseCardPaymentMethod()))
-        }
-    }
-
-
-    private fun setupGooglePayButton() {
-        val googlePayButton = view?.findViewById<Button>(R.id.GooglePay)
-        googlePayButton?.setOnClickListener {
-            requestPayment()
-        }
-
-        // Check if Google Pay is available
-        val isReadyToPayJson = IsReadyToPayRequest.fromJson(getIsReadyToPayRequest().toString())
-        paymentsClient.isReadyToPay(isReadyToPayJson).addOnCompleteListener { task ->
-            try {
-                if (task.isSuccessful) {
-                    googlePayButton?.visibility = View.VISIBLE
-                } else {
-                    // Hide Google Pay button if not available
-                    googlePayButton?.visibility = View.INVISIBLE
-                }
-            } catch (exception: Exception) {
-                // Log exception
+        view.findViewById<Button>(R.id.googlePayButton).setOnClickListener {
+            if (!isPaymentInProgress && !paymentTokenSent) {
+                it.isEnabled = false
+                requestPayment()
             }
         }
+
+        return view
+    }
+
+    private fun navigateToSuccessPage() {
+        Log.d("PaymentFlow", "navigateToSuccessPage called")
+        val successFragment = SuccessFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, successFragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun requestPayment() {
-        // Define payment amount, currency, etc.
-        val paymentDataRequestJson = getPaymentDataRequest().toString() // Convert JSONObject to String
+        Log.d("PaymentFlow", "requestPayment - isPaymentInProgress: $isPaymentInProgress")
+        if (isPaymentInProgress || paymentTokenSent) {
+            Log.d("PaymentFlow", "Payment request or token submission already in progress.")
+            return
+        }
 
-        val request = PaymentDataRequest.fromJson(paymentDataRequestJson)
-        if (request != null) {
-            AutoResolveHelper.resolveTask(
-                paymentsClient.loadPaymentData(request),
-                requireActivity(), // Use requireActivity() instead of 'this'
-                REQUEST_CODE // REQUEST_CODE is a constant integer you define to track the request
-            )
+        isPaymentInProgress = true // Payment is now in progress
+        val paymentDataRequest = createPaymentDataRequest() ?: return
+        AutoResolveHelper.resolveTask(
+            paymentsClient.loadPaymentData(paymentDataRequest),
+            requireActivity(),
+            loadPaymentDataRequestCode
+        )
+    }
+
+    private fun createPaymentDataRequest(): PaymentDataRequest? {
+        val paymentDataRequestJson = GooglePay.getPaymentDataRequest()
+        Log.d("PaymentFlow", "PaymentDataRequest JSON: $paymentDataRequestJson")
+        return PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
+    }
+
+    private fun sendPaymentTokenToServer(payload: JSONObject) {
+        if (paymentTokenSent || !isAdded) {
+            Log.d("PaymentFlow", "Payment token already sent or fragment not attached, skipping...")
+            return
+        }
+
+        Log.d("PaymentFlow", "sendPaymentTokenToServer - Payload: $payload")
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        val url = "https://f404-197-245-91-93.ngrok-free.app/create-payment-intent" // Update with your server's URL
+
+        Log.d("PaymentRequest", "Sending payload to server: $payload")
+
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, payload,
+            { response ->
+                val isSuccess = response.optBoolean("success", false)
+                if (isSuccess) {
+                    paymentTokenSent = true
+                    Log.d("PaymentRequest", "Payment token successfully sent to server and processed.")
+                    navigateToSuccessPage()  // Navigate to success page only on success
+                } else {
+                    // Handle failure
+                    val errorMessage = response.optString("error_message", "Unknown error")
+                    Log.e("PaymentError", "Payment token sent to server but failed to process. Error message: $errorMessage")
+                    if (isAdded) {
+                        Toast.makeText(requireContext(), "Payment failed: $errorMessage", Toast.LENGTH_LONG).show()
+                    }
+                }
+            },
+            { error ->
+                // Handle network or server error
+                Log.e("PaymentError", "Error sending payment token to server: ${error.toString()}")
+                error.networkResponse?.let {
+                    val responseBody = String(it.data, Charset.forName("UTF-8"))
+                    Log.e("PaymentError", "Server response body: $responseBody")
+                }
+                if (isAdded) {
+                    Toast.makeText(requireContext(), "Network error occurred", Toast.LENGTH_LONG).show()
+                }
+            }
+        )
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun extractPaymentToken(paymentInformation: String?): String? {
+        return try {
+            paymentInformation?.let {
+                val paymentData = JSONObject(it)
+                val paymentMethodData = paymentData.getJSONObject("paymentMethodData")
+                val tokenizationData = paymentMethodData.getJSONObject("tokenizationData")
+                tokenizationData.getString("token")
+            }
+        } catch (e: JSONException) {
+            Log.e("GooglePay", "Error extracting payment token", e)
+            null
         }
     }
 
-        // onActivityResult to handle the payment result
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            when (requestCode) {
-                REQUEST_CODE -> {
-                    when (resultCode) {
-                        Activity.RESULT_OK ->
-                            data?.let { intent ->
-                                PaymentData.getFromIntent(intent)?.let { handlePaymentSuccess(it) }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("PaymentFlow", "onActivityResult - requestCode: $requestCode, resultCode: $resultCode")
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            loadPaymentDataRequestCode -> {
+                isPaymentInProgress = false // Reset the flag
+
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.let {
+                            val paymentInfo = PaymentData.getFromIntent(it)?.toJson()
+                            val paymentToken = extractPaymentToken(paymentInfo)
+                            paymentToken?.let { token ->
+                                val payload = JSONObject().apply {
+                                    put("paymentToken", token)
+                                    put("idempotencyKey", UUID.randomUUID().toString()) // Add idempotency key
+                                }
+                                sendPaymentTokenToServer(payload)
                             }
-                        Activity.RESULT_CANCELED -> {
-                            // The user canceled the payment.
+                        } ?: run {
+                            Log.e("GooglePay", "Intent data is null")
                         }
-                        AutoResolveHelper.RESULT_ERROR -> {
-                            // Handle errors
+                    }
+                    Activity.RESULT_CANCELED -> {
+                        // Handle payment cancellation
+                        Log.d("PaymentFlow", "Payment canceled by user")
+                    }
+                    AutoResolveHelper.RESULT_ERROR -> {
+                        // Handle error
+                        val status = AutoResolveHelper.getStatusFromIntent(data)
+                        Log.e("PaymentFlow", "Error during payment: $status")
+                        if (isAdded) {
+                            Toast.makeText(requireContext(), "Payment failed: ${status?.statusMessage}", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
             }
         }
-
-    private fun handlePaymentSuccess(paymentData: PaymentData) {
-        val paymentInformation = paymentData.toJson() ?: return
-        val paymentToken = extractPaymentToken(paymentInformation)
-
-        sendPaymentInformationToServer(paymentToken)
     }
-        // Define methods getIsReadyToPayRequest and getPaymentDataRequest to create the requests
-        // ...
-        private fun extractPaymentToken(paymentInformation: String): String {
-            try {
-                val paymentData = JSONObject(paymentInformation)
-                val paymentMethodData = paymentData.getJSONObject("paymentMethodData")
-                val tokenizationData = paymentMethodData.getJSONObject("tokenizationData")
-                return tokenizationData.getString("token")
-            } catch (e: JSONException) {
-                e.printStackTrace()
-                // Handle error appropriately
-            }
-            return ""
-        }
-    private fun sendPaymentInformationToServer(paymentToken: String) {
-        val url = "https://1a56-197-245-12-27.ngrok-free.app/create-payment-intent" // Replace with your server's URL
-
-        // Create JSON body with the payment token and other necessary data
-        val jsonBody = JSONObject()
-        jsonBody.put("paymentToken", paymentToken)
-        // Add any other necessary data
-
-        // Create a network request to your server
-        val requestQueue = Volley.newRequestQueue(context)
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, url, jsonBody,
-            { response ->
-                // Handle server response here
-            },
-            { error ->
-                // Handle error here
-            }
-        )
-
-        // Add the request to the RequestQueue
-        requestQueue.add(jsonObjectRequest)
-    }
-
-    companion object {
-            private const val REQUEST_CODE = 123 // Define a request code for Google Pay API
-        }
-
-
 }
