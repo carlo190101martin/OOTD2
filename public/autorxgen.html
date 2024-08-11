@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devsice-width, initial-scale=1.0">
+    <title>AutoRxGen - Streamlining Prescription Renewals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #218838;
+        }
+        nav a {
+            color: white;
+            padding: 1rem;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #1e7e34;
+        }
+        .hero {
+            background-color: #155724;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        .content {
+            padding: 2rem;
+        }
+        .content h2 {
+            color: #155724;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .cta {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .cta a {
+            background-color: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .cta a:hover {
+            background-color: #218838;
+        }
+        footer {
+            background-color: #155724;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+        .placeholder-img {
+            background-color: #ddd;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            margin: 1rem 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AutoRxGen</h1>
+        <p>Streamlining Prescription Renewals</p>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#features">Features</a>
+        <a href="#join">Join Us</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <div class="hero">
+        <h2>Welcome to AutoRxGen</h2>
+        <p>The hassle-free way to renew your prescriptions</p>
+        <button onclick="toggleAboutSection()">Learn More</button>
+    </div>
+    <div class="content hidden" id="about">
+        <h2>About AutoRxGen</h2>
+        <div class="placeholder-img">Placeholder Image</div>
+        <p>AutoRxGen addresses two main issues:</p>
+        <ul>
+            <li>The hassle of renewing chronic scripts for certain S2-S4 medications.</li>
+            <li>The need to physically visit a doctor for certain S2-S4 medications, if you already know what you need.</li>
+        </ul>
+    </div>
+    <div class="content" id="features">
+        <h2>Features</h2>
+        <div class="placeholder-img">Placeholder Image</div>
+        <p>Our application offers two main features:</p>
+        <h3>Script Renewal</h3>
+        <p>Users can upload a legitimate expired script, which is verified by the app. The script is then renewed with today's date and a new doctor's name. Alternatively, each script can appear on a doctor's dashboard for approval or rejection.</p>
+        <h3>First-time Scripts</h3>
+        <p>For certain low-schedule medications like topical minoxidil, users can fill out a questionnaire. Eligibility is determined based on criteria set by a doctor, with approvals or rejections based on the users' answers. All questions are created by a doctor.</p>
+    </div>
+    <div class="cta">
+        <a href="#join">Join Our Team</a>
+    </div>
+    <footer id="contact">
+        <p>Contact us at <a href="mailto:info@autorxgen.com">info@autorxgen.com</a></p>
+        <p>&copy; 2024 AutoRxGen. All rights reserved.</p>
+    </footer>
+    <script>
+        function toggleAboutSection() {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection.classList.contains('hidden')) {
+                aboutSection.classList.remove('hidden');
+            } else {
+                aboutSection.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

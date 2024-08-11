@@ -150,7 +150,9 @@ class ranking : Fragment() {
     private fun triggerServerScript(userId: String, scriptUrl: String, negativeTestConfirmed: Boolean) {
         val thread = Thread {
             try {
-                val url = URL("https://51aa-197-245-1-93.ngrok-free.app/process-prescription")
+                val url = URL("https://a2ba-197-245-44-141.ngrok-free.app/process-prescription")
+                Log.d("ceferer", "process pre called")
+
                 val httpURLConnection = url.openConnection() as HttpURLConnection
                 httpURLConnection.requestMethod = "POST"
                 httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8")

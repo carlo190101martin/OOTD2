@@ -94,7 +94,7 @@ class toPay : Fragment() {
 
         Log.d("PaymentFlow", "sendPaymentTokenToServer - Payload: $payload")
         val requestQueue = Volley.newRequestQueue(requireContext())
-        val url = "https://f404-197-245-91-93.ngrok-free.app/create-payment-intent" // Update with your server's URL
+        val url = "https://4f64-197-245-44-141.ngrok-free.app/create-payment-intent" // Update with your server's URL
 
         Log.d("PaymentRequest", "Sending payload to server: $payload")
 

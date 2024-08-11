@@ -68,7 +68,7 @@ class Payment : AppCompatActivity() {
 
 
     private fun createPrescription(medication: String) {
-        val url = "https://1b76-197-245-2-4.ngrok-free.app/create-prescription" // Replace with your actual server URL
+        val url = "https://3698-197-245-44-141.ngrok-free.app/create-prescription" // Replace with your actual server URL
         val requestQueue = Volley.newRequestQueue(this)
 
         val jsonBody = JSONObject().apply {
@@ -141,7 +141,7 @@ class Payment : AppCompatActivity() {
             Log.d("PaymentFlow", "sendPaymentTokenToServer - Payload: $payload")
             val requestQueue = Volley.newRequestQueue(this)
             val url =
-                "https://1b76-197-245-2-4.ngrok-free.app/create-payment-intent" // Update with your server's URL
+                "https://3698-197-245-44-141.ngrok-free.app/create-payment-intent" // Update with your server's URL
 
             Log.d("PaymentRequest", "Sending payload to server: $payload")
 
